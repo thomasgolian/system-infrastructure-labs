@@ -2,7 +2,7 @@
 
 project-main-photo.jpg
 
-<img src="images/project-main-photo.jpg" width="600">
+<img src="images/project-main-photo.jpg" width="800">
 
 
 # Overview
