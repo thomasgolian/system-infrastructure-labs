@@ -1,6 +1,6 @@
 # Active Directory Lab: Group Policy & Access Control Implementation
 
-project-main-photo.jpg
+![](images/project-main-photo.jpg)
 
 <img src="images/project-main-photo.jpg" width="800">
 
@@ -43,13 +43,13 @@ Implement SMB File Share
 
 # Installation
 
-install-vmware-tools.jpg
+![Tools](images/install-vmware-tools.jpg)
 
 With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 2 CPU cores, 
 
 Network adapter = host only (other domain host VMs will also be set to 'host only')
 
-windows-server-set-up.jpg
+![Server](images/windows-server-set-up.jpg)
 
 <br>
 
@@ -57,7 +57,7 @@ windows-server-set-up.jpg
 
 On my physical host machine, we can see VMware's internal virtual switch is using 192.168.56.0/24 -- so we'll put the AD domain controller on that network
 
-vmware-internal-switch.jpg
+![internal](images/vmware-internal-switch.jpg)
 
 <br>
 
@@ -87,7 +87,7 @@ DNS = 192.168.56.10
 
 <br>
 
-client-ip-config-ping.jpg
+![Client IP](images/client-ip-config-ping.jpg)
 
 <br>
 
@@ -97,11 +97,11 @@ Install Active Directory Domain Services (AD DS)
 
 > Add Roles and Features
 
-ad-domainservices-configure.jpg
+![Domain Services](images/ad-domainservices-configure.jpg)
 
-domain-add-services.jpg
+![Add Services](images/domain-add-services.jpg)
 
-installing.jpg
+![Installing](images/installing.jpg)
 
 <br>
 
@@ -111,7 +111,7 @@ We choose > Add a new forest > root domain name = corp.local
 
 After prerequisits check, we install domain services. 
 
-ds-install.jpg
+![DS Install](images/ds-install.jpg)
 
 <br>
 
@@ -119,21 +119,21 @@ Because we created a new 'forest' -- our first domain (corp.local) becomes the f
 
 Create Organization Unit (OU) 'Workstations' for corp.local domain. The Group Policy Objects (GPOs) are applied to the OU.
 
-create-ou.jpg
+![Create OU](images/create-ou.jpg)
 
 <br>
 
 Both client devices (Windows 11 Enterprise) are enrolled in corp.local domain.
 
-enroll-domain.jpg
+![Enroll](images/enroll-domain.jpg)
 
 Using Administrator account to authenticate joining the domain.
 
-authenticate-enroll.jpg
+![Auth Enroll](images/authenticate-enroll.jpg)
 
 Both client VMs are now connected to the domain network.
 
-clients-joined.jpg
+![Clients Joined](images/clients-joined.jpg)
 
 <br>
 
@@ -142,12 +142,12 @@ Creating a new organizational unit (OU) > UserAccounts
 Created both user accounts:
 
 Alex Smith
-asmith@corp.local
-HR dept
+<br>asmith@corp.local
+<br>HR dept
 
 Maria Garcia
-mgarcia@corp.local
-IT dept
+<br>mgarcia@corp.local
+<br>IT dept
 
 <br>
 
@@ -157,11 +157,11 @@ In Group Policy Management > creating 'Allow Ping' object - Group Policy Object 
 
 Group Policy Editor > Computer Configuration > Windows > Security > Firewall > Inbound Rules > Predefined Rules > File and Printer Sharing
 
-allow-ping-gpo.jpg
+![Ping](images/allow-ping-gpo.jpg)
 
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
-client-to-client-connectivity.jpg
+![Connectivity](images/client-to-client-connectivity.jpg)
 
 <br>
 
@@ -173,7 +173,7 @@ Navigating to > Group Policy Management > corp.local > Default Domain Policy > e
 
 Change minimum password length to 10 characters
 
-default-policy-password-legnth.jpg
+![Pass Length](images/default-policy-password-legnth.jpg)
 
 <br>
 
@@ -181,13 +181,13 @@ Inside Account Policies, changing the 'account lockout threshold' to 5 invalid l
 
 In Active Directory Users and Computers, we can view more settings by enabling 'Advanced Features' in the View menu.
 
-advanced-features.jpg
+![Advanced](images/advanced-features.jpg)
 
 <br>
 
 Making sure checked box 'Protect object from accidental deletion' is enabled for the Workstation and UserAccounts OUs
 
-protect-object.jpg
+![Object](images/protect-object.jpg)
 
 <br>
 
@@ -197,8 +197,7 @@ GPO 'No Sleep' > Sleep Settings > Specify the unattended sleep timeout (plugged 
 
 Easy way to view GPO details > select GPO > 'settings'
 
-no-sleep-confirm.jpg
-
+![No Sleep](images/no-sleep-confirm.jpg)
 
 **************************************************************************************************************
 
@@ -220,29 +219,29 @@ With two subfolders inside - 'HR' and 'IT'
 
 Create security groups (a new object):
 
-new-object-itgroup.jpg
+![Object](images/new-object-itgroup.jpg)
 
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
-users-to-groups.jpg
+![Groups](images/users-to-groups.jpg)
 
 <br>
 
 Set NTFS permissions on folders. In security tab, we add corresponding groups for ability to view and 'modify' the share.
 
-permissions-folder-shares.jpg
+![Permissions](images/permissions-folder-shares.jpg)
 
 Because these are department-specific folders, removing standard 'Users' access is recommended so they folder shares aren't reachable from all users.
 
 Blocking inheritance may be required > by navigating to security > advanced > 'disable inheritance'
 
-disable-inheritance.jpg
+![Disable](images/disable-inheritance.jpg)
 
 We give both IT_Group and HR_Group 'read and execute' priviledges to the parenting 'Shares' folder - which will be mapped as a shared drive afterwards.
 
 *Users require read access to the parent share for traversal, while write permissions are controlled at the subfolder level.*
 
-authenticated-users.jpg
+![Authenticated](images/authenticated-users.jpg)
 
 Network Path
 <br>\\DC01\Shares
@@ -256,16 +255,14 @@ In Group Policy Management Editor > create a new drive
 <br>Location: \\DC01\Shares
 <br>Drive Letter: S
 
-map-drive.jpg
+![Map Drive](images/map-drive.jpg)
 
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
-mapped-drive-ready.jpg
+![Mapped](images/mapped-drive-ready.jpg)
 
 **************************************************************************************************************
 # Scenario 2 — Local Admin Restriction
-
-<br>
 
 Goal:
 <br>Users are NOT local admins
@@ -279,9 +276,7 @@ This Group Policy Object (GPO) will be applied to the 'Workstations' OU because 
 
 By using 'Restricted Groups' within Group Policy Manager, we can overwrite local administrative access. Result = now the only users to log in locally to a end user device WITH Administrative access will be those users that are members of 'Workstation Admins' group
 
-mgarcia-workstation.jpg
-
-<br>
+![Workstation](images/mgarcia-workstation.jpg)
 
 Before: 
 <br>Admin rights were: local + uncontrolled
@@ -291,7 +286,7 @@ Now:
 
 Verify with `net localgroup administrators`
 
-client-device.jpg
+![Client Device](images/client-device.jpg)
 
 **************************************************************************************************************
 
@@ -309,31 +304,31 @@ GPOs to create:
 
 - Task Manager Restrict - disables Control Panel access
 
-all3-restrict.jpg
+![Restrict](images/all3-restrict.jpg)
 
 <br>
 
 Group Policy Editor again > User Configuration > Windows > Administrative Templates > Control Panel
 
-restrict-controlpanel-settings.jpg
+![Control Panel](images/restrict-controlpanel-settings.jpg)
 
 Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group policy on the client machine and user account:
 
-gp-result.jpg
+![GP Result](images/gp-result.jpg)
 
 If a normal user now tries to access control panel > user will receive an restriction error message:
 
-restricted.jpg
+![Error](images/restricted.jpg)
 
 <br>
 
-We restrict the Task Manager:
+Restrict the Task Manager:
 
-lock-task-manager.jpg
+![Task Manager](images/lock-task-manager.jpg)
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
 
-verify-gpo.jpg
+![Verify](images/verify-gpo.jpg)
 
 **************************************************************************************************************
 
@@ -366,4 +361,4 @@ Implemented role-based access control by combining Active Directory group member
 
 ***************************************************************************************************************
 
-project-main-photo.jpg
+![Main](images/project-main-photo.jpg)
