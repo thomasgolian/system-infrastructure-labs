@@ -61,9 +61,9 @@ On my physical host machine, we can see VMware's internal virtual switch is usin
 IP addresses for our 3 Windows virtual machines:
 
 ```
-Domain name: `corp.local`
+Domain name: corp.local
 
-Destination Server: `DC01.corp.local`
+Destination Server: DC01.corp.local
 
 Domain Controller (DC01 server):
 IP = 192.168.56.10
@@ -92,15 +92,18 @@ The server will run DNS + Active Directory
 
 Install Active Directory Domain Services (AD DS) 
 
-> Add Roles and Features
+Add Roles and Features
+
 <br>
 
 <img src="images/ad-domainservices-configure.jpg" width="1100">
 
 <br>
+
 <img src="images/domain-add-services.jpg" width="700">
 
 <br>
+
 <img src="images/installing.jpg" width="600">
 
 <br>
@@ -130,17 +133,22 @@ Create Organization Unit (OU) `Workstations` for corp.local domain. The Group Po
 Both client devices (Windows 11 Enterprise) are enrolled in corp.local domain.
 
 <br>
+
 <img src="images/enroll-domain.jpg" width="1000">
 
 <br>
+
 Using Administrator account to authenticate joining the domain.
 <br>
 
 <img src="images/authenticate-enroll.jpg" width="700">
+
 <br>
+
 Both client VMs are now connected to the domain network.
 
 <br>
+
 <img src="images/clients-joined.jpg" width="900">
 
 <br>
@@ -166,12 +174,14 @@ In Group Policy Management > creating 'Allow Ping' object - Group Policy Object 
 Group Policy Editor > Computer Configuration > Windows > Security > Firewall > Inbound Rules > Predefined Rules > File and Printer Sharing
 
 <br>
+
 <img src="images/allow-ping-gpo.jpg" width="900">
 
 <br>
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
 <br>
+
 <img src="images/client-to-client-connectivity.jpg" width="700">
 
 <br>
@@ -185,6 +195,7 @@ Navigating to > Group Policy Management > corp.local > Default Domain Policy > e
 Change minimum password length to 10 characters
 
 <br>
+
 <img src="images/default-policy-password-legnth.jpg" width="900">
 
 <br>
@@ -194,6 +205,7 @@ Inside Account Policies, changing the 'account lockout threshold' to 5 invalid l
 In Active Directory Users and Computers, we can view more settings by enabling 'Advanced Features' in the View menu.
 
 <br>
+
 <img src="images/advanced-features.jpg" width="700">
 
 <br>
@@ -201,6 +213,7 @@ In Active Directory Users and Computers, we can view more settings by enabling '
 Making sure checked box 'Protect object from accidental deletion' is enabled for the Workstation and UserAccounts OUs
 
 <br>
+
 <img src="images/protect-object.jpg" width="700">
 
 <br>
@@ -212,6 +225,7 @@ GPO 'No Sleep' > Sleep Settings > Specify the unattended sleep timeout (plugged 
 Easy way to view GPO details > select GPO > 'settings'
 
 <br>
+
 <img src="images/no-sleep-confirm.jpg" width="900">
 
 **************************************************************************************************************
@@ -235,12 +249,14 @@ With two subfolders inside - 'HR' and 'IT'
 Create security groups (a new object):
 
 <br>
+
 <img src="images/new-object-itgroup.jpg" width="700">
 
 <br>
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
 <br>
+
 <img src="images/users-to-groups.jpg" width="900">
 
 <br>
@@ -279,11 +295,14 @@ In Group Policy Management Editor > create a new drive
 <br>Drive Letter: `S`
 
 <br>
+
 <img src="images/map-drive.jpg" width="900">
+
 <br>
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
 <br>
+
 <img src="images/mapped-drive-ready.jpg" width="1100">
 
 **************************************************************************************************************
@@ -313,7 +332,9 @@ Now:
 
 Verify with `net localgroup administrators`
 <br>
+
 <img src="images/client-device.jpg" width="700">
+
 <br>
 **************************************************************************************************************
 
@@ -339,16 +360,19 @@ GPOs to create:
 Group Policy Editor again > User Configuration > Windows > Administrative Templates > Control Panel
 
 <img src="images/restrict-controlpanel-settings.jpg" width="900">
+
 <br>
 
 Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group policy on the client machine and user account:
 <br>
 
 <img src="images/gp-result.jpg" width="900">
+
 <br>
 
 If a normal user now tries to access control panel > user will receive an restriction error message:
 <br>
+
 <img src="images/restricted.jpg" width="900">
 
 <br>
@@ -356,6 +380,7 @@ If a normal user now tries to access control panel > user will receive an restri
 Restrict the Task Manager:
 
 <img src="images/lock-task-manager.jpg" width="900">
+
 <br>
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
