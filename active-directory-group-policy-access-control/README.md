@@ -40,13 +40,13 @@ Implement SMB File Share
 
 # Installation
 
-<img src="images/install-vmware-tools.jpg" width="900">
+<img src="images/install-vmware-tools.jpg" width="600">
 
 With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 2 CPU cores, 
 
 Network adapter = host only (other domain host VMs will also be set to 'host only')
 
-<img src="images/windows-server-set-up.jpg" width="900">
+<img src="images/windows-server-set-up.jpg" width="600">
 
 <br>
 
@@ -84,7 +84,7 @@ DNS = 192.168.56.10
 
 <br>
 
-<img src="images/client-ip-config-ping.jpg" width="900">
+<img src="images/client-ip-config-ping.jpg" width="1100">
 
 <br>
 
@@ -94,11 +94,11 @@ Install Active Directory Domain Services (AD DS)
 
 > Add Roles and Features
 
-<img src="images/ad-domainservices-configure.jpg" width="900">
+<img src="images/ad-domainservices-configure.jpg" width="1100">
 
-<img src="images/domain-add-services.jpg" width="900">
+<img src="images/domain-add-services.jpg" width="700">
 
-<img src="images/installing.jpg" width="900">
+<img src="images/installing.jpg" width="600">
 
 <br>
 
@@ -116,17 +116,17 @@ Because we created a new 'forest' -- our first domain (corp.local) becomes the f
 
 Create Organization Unit (OU) 'Workstations' for corp.local domain. The Group Policy Objects (GPOs) are applied to the OU.
 
-<img src="images/create-ou.jpg" width="900">
+<img src="images/create-ou.jpg" width="700">
 
 <br>
 
 Both client devices (Windows 11 Enterprise) are enrolled in corp.local domain.
 
-<img src="images/enroll-domain.jpg" width="900">
+<img src="images/enroll-domain.jpg" width="1000">
 
 Using Administrator account to authenticate joining the domain.
 
-<img src="images/authenticate-enroll.jpg" width="900">
+<img src="images/authenticate-enroll.jpg" width="700">
 
 Both client VMs are now connected to the domain network.
 
@@ -158,7 +158,7 @@ Group Policy Editor > Computer Configuration > Windows > Security > Firewall > I
 
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
-<img src="images/client-to-client-connectivity.jpg" width="900">
+<img src="images/client-to-client-connectivity.jpg" width="700">
 
 <br>
 
@@ -178,13 +178,13 @@ Inside Account Policies, changing the 'account lockout threshold' to 5 invalid l
 
 In Active Directory Users and Computers, we can view more settings by enabling 'Advanced Features' in the View menu.
 
-<img src="images/advanced-features.jpg" width="900">
+<img src="images/advanced-features.jpg" width="700">
 
 <br>
 
 Making sure checked box 'Protect object from accidental deletion' is enabled for the Workstation and UserAccounts OUs
 
-<img src="images/protect-object.jpg" width="900">
+<img src="images/protect-object.jpg" width="700">
 
 <br>
 
@@ -216,7 +216,7 @@ With two subfolders inside - 'HR' and 'IT'
 
 Create security groups (a new object):
 
-<img src="images/new-object-itgroup.jpg" width="900">
+<img src="images/new-object-itgroup.jpg" width="700">
 
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
@@ -226,7 +226,7 @@ Adding users to corresponding Groups via 'Member Of' in the User's properties me
 
 Set NTFS permissions on folders. In security tab, we add corresponding groups for ability to view and 'modify' the share.
 
-<img src="images/permissions-folder-shares.jpg" width="900">
+<img src="images/permissions-folder-shares.jpg" width="1100">
 
 Because these are department-specific folders, removing standard 'Users' access is recommended so they folder shares aren't reachable from all users.
 
@@ -256,7 +256,7 @@ In Group Policy Management Editor > create a new drive
 
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
-<img src="images/mapped-drive-ready.jpg" width="900">
+<img src="images/mapped-drive-ready.jpg" width="1100">
 
 **************************************************************************************************************
 # Scenario 2 — Local Admin Restriction
@@ -283,7 +283,7 @@ Now:
 
 Verify with `net localgroup administrators`
 
-<img src="images/client-device.jpg" width="900">
+<img src="images/client-device.jpg" width="700">
 
 **************************************************************************************************************
 
@@ -325,7 +325,7 @@ Restrict the Task Manager:
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
 
-<img src="images/verify-gpo.jpg" width="900">
+<img src="images/verify-gpo.jpg" width="600">
 
 **************************************************************************************************************
 
