@@ -313,6 +313,7 @@ The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) a
 <img src="images/mapped-drive-ready.jpg" width="1100">
 
 **************************************************************************************************************
+
 # Scenario 2 — Local Admin Restriction
 
 Goal:
@@ -346,6 +347,7 @@ Verify with `net localgroup administrators`
 <img src="images/client-device.jpg" width="700">
 
 <br>
+
 **************************************************************************************************************
 
 # Scenario 3 - User Lockdown (Security Hardening)
