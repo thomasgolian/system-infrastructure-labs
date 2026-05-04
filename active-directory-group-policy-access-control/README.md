@@ -1,9 +1,6 @@
 # Active Directory Lab: Group Policy & Access Control Implementation
 
-![](images/project-main-photo.jpg)
-
-<img src="images/project-main-photo.jpg" width="650">
-
+<img src="images/project-main-photo.jpg" width="700">
 
 # Overview
 
@@ -43,13 +40,13 @@ Implement SMB File Share
 
 # Installation
 
-![Tools](images/install-vmware-tools.jpg)
+<img src="images/install-vmware-tools.jpg" width="700">
 
 With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 2 CPU cores, 
 
 Network adapter = host only (other domain host VMs will also be set to 'host only')
 
-![Server](images/windows-server-set-up.jpg)
+<img src="images/windows-server-set-up.jpg" width="700">
 
 <br>
 
@@ -57,7 +54,7 @@ Network adapter = host only (other domain host VMs will also be set to 'host onl
 
 On my physical host machine, we can see VMware's internal virtual switch is using 192.168.56.0/24 -- so we'll put the AD domain controller on that network
 
-![internal](images/vmware-internal-switch.jpg)
+<img src="images/vmware-internal-switch.jpg" width="700">
 
 <br>
 
@@ -87,7 +84,7 @@ DNS = 192.168.56.10
 
 <br>
 
-![Client IP](images/client-ip-config-ping.jpg)
+<img src="images/client-ip-config-ping.jpg" width="700">
 
 <br>
 
@@ -97,11 +94,11 @@ Install Active Directory Domain Services (AD DS)
 
 > Add Roles and Features
 
-![Domain Services](images/ad-domainservices-configure.jpg)
+<img src="images/ad-domainservices-configure.jpg" width="700">
 
-![Add Services](images/domain-add-services.jpg)
+<img src="images/domain-add-services.jpg" width="700">
 
-![Installing](images/installing.jpg)
+<img src="images/installing.jpg" width="700">
 
 <br>
 
@@ -111,7 +108,7 @@ We choose > Add a new forest > root domain name = corp.local
 
 After prerequisits check, we install domain services. 
 
-![DS Install](images/ds-install.jpg)
+<img src="images/ds-install.jpg" width="700">
 
 <br>
 
@@ -119,21 +116,21 @@ Because we created a new 'forest' -- our first domain (corp.local) becomes the f
 
 Create Organization Unit (OU) 'Workstations' for corp.local domain. The Group Policy Objects (GPOs) are applied to the OU.
 
-![Create OU](images/create-ou.jpg)
+<img src="images/create-ou.jpg" width="700">
 
 <br>
 
 Both client devices (Windows 11 Enterprise) are enrolled in corp.local domain.
 
-![Enroll](images/enroll-domain.jpg)
+<img src="images/enroll-domain.jpg" width="700">
 
 Using Administrator account to authenticate joining the domain.
 
-![Auth Enroll](images/authenticate-enroll.jpg)
+<img src="images/authenticate-enroll.jpg" width="700">
 
 Both client VMs are now connected to the domain network.
 
-![Clients Joined](images/clients-joined.jpg)
+<img src="images/clients-joined.jpg" width="700">
 
 <br>
 
@@ -157,11 +154,11 @@ In Group Policy Management > creating 'Allow Ping' object - Group Policy Object 
 
 Group Policy Editor > Computer Configuration > Windows > Security > Firewall > Inbound Rules > Predefined Rules > File and Printer Sharing
 
-![Ping](images/allow-ping-gpo.jpg)
+<img src="images/allow-ping-gpo.jpg" width="700">
 
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
-![Connectivity](images/client-to-client-connectivity.jpg)
+<img src="images/client-to-client-connectivity.jpg" width="700">
 
 <br>
 
@@ -173,7 +170,7 @@ Navigating to > Group Policy Management > corp.local > Default Domain Policy > e
 
 Change minimum password length to 10 characters
 
-![Pass Length](images/default-policy-password-legnth.jpg)
+<img src="images/default-policy-password-legnth.jpg" width="700">
 
 <br>
 
@@ -181,13 +178,13 @@ Inside Account Policies, changing the 'account lockout threshold' to 5 invalid l
 
 In Active Directory Users and Computers, we can view more settings by enabling 'Advanced Features' in the View menu.
 
-![Advanced](images/advanced-features.jpg)
+<img src="images/advanced-features.jpg" width="700">
 
 <br>
 
 Making sure checked box 'Protect object from accidental deletion' is enabled for the Workstation and UserAccounts OUs
 
-![Object](images/protect-object.jpg)
+<img src="images/protect-object.jpg" width="700">
 
 <br>
 
@@ -197,7 +194,7 @@ GPO 'No Sleep' > Sleep Settings > Specify the unattended sleep timeout (plugged 
 
 Easy way to view GPO details > select GPO > 'settings'
 
-![No Sleep](images/no-sleep-confirm.jpg)
+<img src="images/no-sleep-confirm.jpg" width="700">
 
 **************************************************************************************************************
 
@@ -219,29 +216,29 @@ With two subfolders inside - 'HR' and 'IT'
 
 Create security groups (a new object):
 
-![Object](images/new-object-itgroup.jpg)
+<img src="images/new-object-itgroup.jpg" width="700">
 
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
-![Groups](images/users-to-groups.jpg)
+<img src="images/users-to-groups.jpg" width="700">
 
 <br>
 
 Set NTFS permissions on folders. In security tab, we add corresponding groups for ability to view and 'modify' the share.
 
-![Permissions](images/permissions-folder-shares.jpg)
+<img src="images/permissions-folder-shares.jpg" width="700">
 
 Because these are department-specific folders, removing standard 'Users' access is recommended so they folder shares aren't reachable from all users.
 
 Blocking inheritance may be required > by navigating to security > advanced > 'disable inheritance'
 
-![Disable](images/disable-inheritance.jpg)
+<img src="images/disable-inheritance.jpg" width="700">
 
 We give both IT_Group and HR_Group 'read and execute' priviledges to the parenting 'Shares' folder - which will be mapped as a shared drive afterwards.
 
 *Users require read access to the parent share for traversal, while write permissions are controlled at the subfolder level.*
 
-![Authenticated](images/authenticated-users.jpg)
+<img src="images/authenticated-users.jpg" width="700">
 
 Network Path
 <br>\\DC01\Shares
@@ -255,11 +252,11 @@ In Group Policy Management Editor > create a new drive
 <br>Location: \\DC01\Shares
 <br>Drive Letter: S
 
-![Map Drive](images/map-drive.jpg)
+<img src="images/map-drive.jpg" width="700">
 
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
-![Mapped](images/mapped-drive-ready.jpg)
+<img src="images/mapped-drive-ready.jpg" width="700">
 
 **************************************************************************************************************
 # Scenario 2 — Local Admin Restriction
@@ -276,7 +273,7 @@ This Group Policy Object (GPO) will be applied to the 'Workstations' OU because 
 
 By using 'Restricted Groups' within Group Policy Manager, we can overwrite local administrative access. Result = now the only users to log in locally to a end user device WITH Administrative access will be those users that are members of 'Workstation Admins' group
 
-![Workstation](images/mgarcia-workstation.jpg)
+<img src="images/mgarcia-workstation.jpg" width="700">
 
 Before: 
 <br>Admin rights were: local + uncontrolled
@@ -286,7 +283,7 @@ Now:
 
 Verify with `net localgroup administrators`
 
-![Client Device](images/client-device.jpg)
+<img src="images/client-device.jpg" width="700">
 
 **************************************************************************************************************
 
@@ -304,31 +301,31 @@ GPOs to create:
 
 - Task Manager Restrict - disables Control Panel access
 
-![Restrict](images/all3-restrict.jpg)
+<img src="images/all3-restrict.jpg" width="700">
 
 <br>
 
 Group Policy Editor again > User Configuration > Windows > Administrative Templates > Control Panel
 
-![Control Panel](images/restrict-controlpanel-settings.jpg)
+<img src="images/restrict-controlpanel-settings.jpg" width="700">
 
 Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group policy on the client machine and user account:
 
-![GP Result](images/gp-result.jpg)
+<img src="images/gp-result.jpg" width="700">
 
 If a normal user now tries to access control panel > user will receive an restriction error message:
 
-![Error](images/restricted.jpg)
+<img src="images/restricted.jpg" width="700">
 
 <br>
 
 Restrict the Task Manager:
 
-![Task Manager](images/lock-task-manager.jpg)
+<img src="images/lock-task-manager.jpg" width="700">
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
 
-![Verify](images/verify-gpo.jpg)
+<img src="images/verify-gpo.jpg" width="700">
 
 **************************************************************************************************************
 
