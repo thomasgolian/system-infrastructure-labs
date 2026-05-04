@@ -1,6 +1,6 @@
 # Active Directory Lab: Group Policy & Access Control Implementation
 
-<img src="images/project-main-photo.jpg" width="700">
+<img src="images/project-main-photo.jpg" width="900">
 
 # Overview
 
