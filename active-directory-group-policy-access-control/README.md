@@ -253,6 +253,7 @@ Create security groups (a new object):
 <img src="images/new-object-itgroup.jpg" width="700">
 
 <br>
+
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
 <br>
@@ -264,21 +265,27 @@ Adding users to corresponding Groups via 'Member Of' in the User's properties me
 Set NTFS permissions on folders. In security tab, we add corresponding groups for ability to view and 'modify' the share.
 
 <br>
+
 <img src="images/permissions-folder-shares.jpg" width="1100">
 
 <br>
+
 Because these are department-specific folders, removing standard 'Users' access is recommended so they folder shares aren't reachable from all users.
 
 Blocking inheritance may be required > by navigating to security > advanced > 'disable inheritance'
 
 <br>
+
 <img src="images/disable-inheritance.jpg" width="900">
 
 <br>
+
 We give both IT_Group and HR_Group 'read and execute' priviledges to the parenting 'Shares' folder - which will be mapped as a shared drive afterwards.
 
 *Users require read access to the parent share for traversal, while write permissions are controlled at the subfolder level.*
+
 <br>
+
 <img src="images/authenticated-users.jpg" width="900">
 
 <br>
@@ -321,9 +328,11 @@ This Group Policy Object (GPO) will be applied to the 'Workstations' OU because 
 By using 'Restricted Groups' within Group Policy Manager, we can overwrite local administrative access. Result = now the only users to log in locally to a end user device WITH Administrative access will be those users that are members of 'Workstation Admins' group
 
 <br>
+
 <img src="images/mgarcia-workstation.jpg" width="900">
 
 <br>
+
 Before: 
 <br>Admin rights were: local + uncontrolled
 
@@ -331,6 +340,7 @@ Now:
 <br>local Admin rights are: centrally controlled by AD
 
 Verify with `net localgroup administrators`
+
 <br>
 
 <img src="images/client-device.jpg" width="700">
@@ -364,6 +374,7 @@ Group Policy Editor again > User Configuration > Windows > Administrative Templa
 <br>
 
 Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group policy on the client machine and user account:
+
 <br>
 
 <img src="images/gp-result.jpg" width="900">
@@ -371,6 +382,7 @@ Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group
 <br>
 
 If a normal user now tries to access control panel > user will receive an restriction error message:
+
 <br>
 
 <img src="images/restricted.jpg" width="900">
@@ -384,6 +396,7 @@ Restrict the Task Manager:
 <br>
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
+
 <br>
 
 <img src="images/verify-gpo.jpg" width="600">
