@@ -42,8 +42,6 @@ Implement SMB File Share
 
 # Installation
 
-<img src="images/install-vmware-tools.jpg" width="600">
-
 With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 2 CPU cores, 
 
 Network adapter = host only (other domain host VMs will also be set to 'host only')
