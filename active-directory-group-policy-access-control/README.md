@@ -240,8 +240,7 @@ We give both IT_Group and HR_Group 'read and execute' priviledges to the parenti
 
 <img src="images/authenticated-users.jpg" width="900">
 
-Network Path
-<br>\\DC01\Shares
+Network Path: `\\DC01\Shares`
 
 <br>
 
@@ -249,8 +248,8 @@ Time to map the 'Shares' folder as a shared drive for client devices
 
 In Group Policy Management Editor > create a new drive
 <br>Action: create
-<br>Location: \\DC01\Shares
-<br>Drive Letter: S
+<br>Location: `\\DC01\Shares`
+<br>Drive Letter: `S`
 
 <img src="images/map-drive.jpg" width="900">
 
