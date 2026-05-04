@@ -6,7 +6,9 @@
 
 Deployed and configured an Active Directory domain environment including OU structure, Group Policy management, DNS integration, and domain-joined client systems in a virtualized lab
 
-This lab environment uses VMware networking to simulate an isolated enterprise LAN. Domain-connected systems are placed on a Host-Only network (VMnet1), forming a private subnet (192.168.56.0/24) where the domain controller provides DNS and identity services. NAT networking (VMnet8) is used separately for internet access when needed, enabling a dual-network design similar to real-world internal and external segmentation.
+This lab environment uses VMware networking to simulate an isolated enterprise LAN. Domain-connected systems are placed on a Host-Only network (VMnet1), forming a private subnet (192.168.56.0/24) where the domain controller provides DNS and identity services. 
+
+NAT networking (VMnet8) is used separately for internet access when needed, enabling a dual-network design similar to real-world internal and external segmentation.
 
 Environment:
 <br>Windows Server 2025 (Domain Controller – DC01)
@@ -16,7 +18,7 @@ Environment:
 
 # Objectives
 
-Separation of concerns - User policies vs Computer policies
+Separation of concerns: User policies vs Computer policies
 
 OUs + GPO linkage
 
@@ -52,7 +54,7 @@ Network adapter = host only (other domain host VMs will also be set to 'host onl
 
 # Active Directory Configuration
 
-On my physical host machine, we can see VMware's internal virtual switch is using 192.168.56.0/24 -- so we'll put the AD domain controller on that network
+On my physical host machine, we can see VMware's internal virtual switch is using `192.168.56.0/24` -- so we'll put the AD domain controller on that network
 
 <img src="images/vmware-internal-switch.jpg" width="900">
 
@@ -93,11 +95,14 @@ The server will run DNS + Active Directory
 Install Active Directory Domain Services (AD DS) 
 
 > Add Roles and Features
+<br>
 
 <img src="images/ad-domainservices-configure.jpg" width="1100">
 
+<br>
 <img src="images/domain-add-services.jpg" width="700">
 
+<br>
 <img src="images/installing.jpg" width="600">
 
 <br>
@@ -108,13 +113,17 @@ We choose > Add a new forest > root domain name = corp.local
 
 After prerequisits check, we install domain services. 
 
+<br>
+
 <img src="images/ds-install.jpg" width="900">
 
 <br>
 
 Because we created a new 'forest' -- our first domain (corp.local) becomes the forest itself (forest root domain)
 
-Create Organization Unit (OU) 'Workstations' for corp.local domain. The Group Policy Objects (GPOs) are applied to the OU.
+Create Organization Unit (OU) `Workstations` for corp.local domain. The Group Policy Objects (GPOs) are applied to the OU.
+
+<br>
 
 <img src="images/create-ou.jpg" width="700">
 
@@ -122,14 +131,18 @@ Create Organization Unit (OU) 'Workstations' for corp.local domain. The Group Po
 
 Both client devices (Windows 11 Enterprise) are enrolled in corp.local domain.
 
+<br>
 <img src="images/enroll-domain.jpg" width="1000">
 
+<br>
 Using Administrator account to authenticate joining the domain.
+<br>
 
 <img src="images/authenticate-enroll.jpg" width="700">
-
+<br>
 Both client VMs are now connected to the domain network.
 
+<br>
 <img src="images/clients-joined.jpg" width="900">
 
 <br>
@@ -154,10 +167,13 @@ In Group Policy Management > creating 'Allow Ping' object - Group Policy Object 
 
 Group Policy Editor > Computer Configuration > Windows > Security > Firewall > Inbound Rules > Predefined Rules > File and Printer Sharing
 
+<br>
 <img src="images/allow-ping-gpo.jpg" width="900">
 
+<br>
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
+<br>
 <img src="images/client-to-client-connectivity.jpg" width="700">
 
 <br>
@@ -170,6 +186,7 @@ Navigating to > Group Policy Management > corp.local > Default Domain Policy > e
 
 Change minimum password length to 10 characters
 
+<br>
 <img src="images/default-policy-password-legnth.jpg" width="900">
 
 <br>
@@ -178,12 +195,14 @@ Inside Account Policies, changing the 'account lockout threshold' to 5 invalid l
 
 In Active Directory Users and Computers, we can view more settings by enabling 'Advanced Features' in the View menu.
 
+<br>
 <img src="images/advanced-features.jpg" width="700">
 
 <br>
 
 Making sure checked box 'Protect object from accidental deletion' is enabled for the Workstation and UserAccounts OUs
 
+<br>
 <img src="images/protect-object.jpg" width="700">
 
 <br>
@@ -194,6 +213,7 @@ GPO 'No Sleep' > Sleep Settings > Specify the unattended sleep timeout (plugged 
 
 Easy way to view GPO details > select GPO > 'settings'
 
+<br>
 <img src="images/no-sleep-confirm.jpg" width="900">
 
 **************************************************************************************************************
@@ -216,29 +236,38 @@ With two subfolders inside - 'HR' and 'IT'
 
 Create security groups (a new object):
 
+<br>
 <img src="images/new-object-itgroup.jpg" width="700">
 
+<br>
 Adding users to corresponding Groups via 'Member Of' in the User's properties menu.
 
+<br>
 <img src="images/users-to-groups.jpg" width="900">
 
 <br>
 
 Set NTFS permissions on folders. In security tab, we add corresponding groups for ability to view and 'modify' the share.
 
+<br>
 <img src="images/permissions-folder-shares.jpg" width="1100">
 
+<br>
 Because these are department-specific folders, removing standard 'Users' access is recommended so they folder shares aren't reachable from all users.
 
 Blocking inheritance may be required > by navigating to security > advanced > 'disable inheritance'
 
+<br>
 <img src="images/disable-inheritance.jpg" width="900">
 
+<br>
 We give both IT_Group and HR_Group 'read and execute' priviledges to the parenting 'Shares' folder - which will be mapped as a shared drive afterwards.
 
 *Users require read access to the parent share for traversal, while write permissions are controlled at the subfolder level.*
-
+<br>
 <img src="images/authenticated-users.jpg" width="900">
+
+<br>
 
 Network Path: `\\DC01\Shares`
 
@@ -251,10 +280,12 @@ In Group Policy Management Editor > create a new drive
 <br>Location: `\\DC01\Shares`
 <br>Drive Letter: `S`
 
+<br>
 <img src="images/map-drive.jpg" width="900">
-
+<br>
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
+<br>
 <img src="images/mapped-drive-ready.jpg" width="1100">
 
 **************************************************************************************************************
@@ -272,8 +303,10 @@ This Group Policy Object (GPO) will be applied to the 'Workstations' OU because 
 
 By using 'Restricted Groups' within Group Policy Manager, we can overwrite local administrative access. Result = now the only users to log in locally to a end user device WITH Administrative access will be those users that are members of 'Workstation Admins' group
 
+<br>
 <img src="images/mgarcia-workstation.jpg" width="900">
 
+<br>
 Before: 
 <br>Admin rights were: local + uncontrolled
 
@@ -281,9 +314,9 @@ Now:
 <br>local Admin rights are: centrally controlled by AD
 
 Verify with `net localgroup administrators`
-
+<br>
 <img src="images/client-device.jpg" width="700">
-
+<br>
 **************************************************************************************************************
 
 # Scenario 3 - User Lockdown (Security Hardening)
@@ -299,6 +332,7 @@ GPOs to create:
 - Control Panel Restrict - blocks permission to use Task Manager
 
 - Task Manager Restrict - disables Control Panel access
+<br>
 
 <img src="images/all3-restrict.jpg" width="900">
 
@@ -307,13 +341,16 @@ GPOs to create:
 Group Policy Editor again > User Configuration > Windows > Administrative Templates > Control Panel
 
 <img src="images/restrict-controlpanel-settings.jpg" width="900">
+<br>
 
 Commands `gpresult /r` and `gpresult /r /scope computer` shows the current group policy on the client machine and user account:
+<br>
 
 <img src="images/gp-result.jpg" width="900">
+<br>
 
 If a normal user now tries to access control panel > user will receive an restriction error message:
-
+<br>
 <img src="images/restricted.jpg" width="900">
 
 <br>
@@ -321,16 +358,18 @@ If a normal user now tries to access control panel > user will receive an restri
 Restrict the Task Manager:
 
 <img src="images/lock-task-manager.jpg" width="900">
+<br>
 
 Very Group Policy is working again after all 3 restrictions are in place. From client-1:
+<br>
 
 <img src="images/verify-gpo.jpg" width="600">
+
+<br>
 
 **************************************************************************************************************
 
 # Final Takeaways 
-
-This project demonstrates the ability to design, deploy, and manage a centralized identity and access control system using Active Directory in a virtualized environment.
 
 Implemented role-based access control (RBAC) using Active Directory security groups and NTFS permissions
 
@@ -340,17 +379,17 @@ Demonstrated understanding of authentication vs authorization within a domain en
 
 Managed organizational units (OUs) to control scope and policy application
 
-Configured and verified secure file sharing using SMB, share permissions, and NTFS permissions
+Configured and verified secure file sharing using SMB (Server Message Block), share permissions, and NTFS permissions
 
 Enforced least privilege principles by restricting local administrator access through centralized policy
 
-Validated configurations using tools such as `gpresult` ensuring accurate policy application and troubleshooting
+Validated configurations using tools such as `gpresult` ensuring accurate policy 
 
-Group Policy applies separately to user and computer objects based on OU placement, allowing centralized and granular control of system and user configurations.
+Group Policy applies separately to user and computer objects based on OU placement, allowing granular and centralized control
 
-Implemented and validated multiple Group Policy Objects (GPOs) to enforce user restrictions including Control Panel, Task Manager, and Run command access, using RSOP tools to verify policy application within an Active Directory environment
+Implemented multiple Group Policy Objects (GPOs) to enforce user restrictions including Control Panel, Task Manager, and Run command access
 
-Restricted Groups enforces centralized control over local administrator membership, ensuring only approved Active Directory groups have elevated privileges on domain-joined machines
+`Restricted Groups` enforces centralized control over local administrator membership, ensuring only approved Active Directory groups have elevated privileges on domain-joined machines
 
 Implemented role-based access control by combining Active Directory group membership with NTFS permissions and Group Policy drive mapping
 
