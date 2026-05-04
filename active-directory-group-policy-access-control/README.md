@@ -2,7 +2,7 @@
 
 ![](images/project-main-photo.jpg)
 
-<img src="images/project-main-photo.jpg" width="800">
+<img src="images/project-main-photo.jpg" width="6500">
 
 
 # Overview
