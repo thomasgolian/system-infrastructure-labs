@@ -42,7 +42,7 @@ Implement SMB File Share
 
 # Installation
 
-With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 2 CPU cores, 
+With VMware -- We're provisioning our Windows Server VM with 8GB RAM, 4 CPU cores, 
 
 Network adapter = host only (other domain host VMs will also be set to 'host only')
 
@@ -178,6 +178,7 @@ Group Policy Editor > Computer Configuration > Windows > Security > Firewall > I
 <img src="images/allow-ping-gpo.jpg" width="900">
 
 <br>
+
 On both clients, command `gpupdate /force` to immediately update the clients' Group Policy. Our clients in the Workstation OU can now send / receive ICMP packets.
 
 <br>
@@ -306,6 +307,7 @@ In Group Policy Management Editor > create a new drive
 <img src="images/map-drive.jpg" width="900">
 
 <br>
+
 The mapped drive (S:) is now available to both users. On left, Alex Smith (HR) attempts to open IT Dept folder but receives a permission error.
 
 <br>
